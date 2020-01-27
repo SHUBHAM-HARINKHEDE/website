@@ -1,0 +1,74 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="{% static 'users/cover.css' %}">
+</head>
+<body>
+<!-- Container element -->
+<div class='container'>
+ <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+  <header class="masthead mb-auto">
+    <div class="inner">
+      <h3 class="masthead-brand">Cover</h3>
+      <nav class="nav nav-masthead justify-content-center">
+        <a class="nav-link active" href="{% url 'profile' %}">Home</a>
+        {% if user.is_authenticated %}
+        <a class="nav-link" href="{% url 'profile' %}">Profile</a>
+         <a class="nav-link" href="">about</a>
+        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+        {% else %}
+        <a class="nav-link" href="{% url 'register' %}">Sign up</a>
+        <a class="nav-link" href="{% url 'login' %}">Login</a>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+
+  <main role="main" class="inner cover">
+    <h1 class="cover-heading">Cover your page.</h1>
+    <p class="lead">Cover is a one-page template for building simple and
+ beautiful home pages. Download, edit the text, and add your own 
+fullscreen background photo to make it your own.
+
+</p>
+  {% if user.is_authenticated %}
+    <h1>Welcome {{ user.username }}</h1>
+    <a class="btn btn-success my-2 my-sm-0" href="{% url 'profile' %}">More </a>
+  {% else %}  
+    <p class="lead">
+        <form class="form my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="email" placeholder="Email" aria-label="Search"> <br> 
+            <a class="btn btn-success my-2 my-sm-0" href="register">Register </a>
+        </form>
+    </p>
+  {% endif %}
+    
+  </main>
+
+  <footer class="mastfoot mt-auto">
+    <div class="inner">
+      <p>developed by <a href="https://twitter.com/shubham_c_h">@shubham_c_h</a>.</p>
+    </div>
+  </footer>
+</div>
+</div>
+<div class="container">
+
+    <p>
+        
+    </p>
+
+</div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  
+</body>
+</html>
+
