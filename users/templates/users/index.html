@@ -40,9 +40,9 @@ fullscreen background photo to make it your own.
     <a class="btn btn-success my-2 my-sm-0" href="{% url 'profile' %}">More </a>
   {% else %}  
     <p class="lead">
-        <form class="form my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="email" placeholder="Email" aria-label="Search"> <br> 
-            <a class="btn btn-success my-2 my-sm-0" href="register">Register </a>
+        <form class="form my-2 my-lg-0" action='register' method="GET">
+            <input class="form-control mr-sm-2" type="email" name="email" placeholder="Email" aria-label="Search"> <br> 
+            <input type='submit' class="btn btn-success my-2 my-sm-0"/ value='Register'>
         </form>
     </p>
   {% endif %}

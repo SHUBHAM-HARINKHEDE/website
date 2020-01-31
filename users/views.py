@@ -3,6 +3,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from .forms import UserRegisterForm , UserUpdateForm, ProfileUpdateForm
 from django.contrib.auth.decorators import login_required
+#to check password
+from django.contrib.auth.hashers import check_password
 #
 
 from social_django.models import UserSocialAuth
@@ -25,7 +27,7 @@ def register(request):
             messages.success(request, f'Your account hs been created! You can login now')
             return redirect('login')
     else:
-        form = UserRegisterForm()
+        form = UserRegisterForm(initial={'email':request.GET.get('email')})
     return render(request, 'users/register.html', {'form':form})
 
 @login_required
@@ -52,7 +54,7 @@ def profile(request):
     return render(request, 'users/profile.html',context)
 
 @login_required
-def settings(request):
+def profile_settings(request):
     user = request.user
 
     try:
@@ -72,7 +74,7 @@ def settings(request):
 
     can_disconnect = (user.social_auth.count() > 1 or user.has_usable_password())
 
-    return render(request, 'users/settings.html', {
+    return render(request, 'users/profile_settings.html', {
         'github_login': github_login,
         'twitter_login': twitter_login,
         'facebook_login': facebook_login,
@@ -99,3 +101,15 @@ def password(request):
     else:
         form = PasswordForm(request.user)
     return render(request, 'users/password.html', {'form': form})
+
+@login_required
+def delete_user_profile(request):
+    if request.method == 'POST':
+        if check_password(request.POST.get('password'),request.user.password):   
+            request.user.delete()
+            return render(request,'users/delete_profile_done.html')
+        else:
+            messages.error(request,"Please enter correct password to procced!",)
+    return render(request,'users/delete_profile.html')
+
+
