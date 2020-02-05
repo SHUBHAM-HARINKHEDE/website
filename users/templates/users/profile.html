@@ -26,4 +26,50 @@
 			</form>
 	    </div>
 	</div>
+	<br>
+	<h2>Education:<input class='btn btn-secondary' type="button" data-toggle="modal" data-target="#addCollege" value='Add College'></h2>	
+	{% for e in edu %}
+		<div class="card">  
+		<div class="card-body">
+			<form class='form-group'>
+			college:<input value='{{e.college}}'><br><br>
+			board:<input value='{{e.board}}'><br><br>
+			qualifiaction:<input value='{{e.board}}'><br><br>
+			grade:<input value='{{e.grade}}'><br><br>
+			<input class='btn btn-secondary' type="submit" value='Update'> <input class='btn btn-secondary' type='submit' value='Delete'>
+			</fom>	
+			
+	    </div>
+	</div>
+	<br>
+	{% endfor %}
+
+
+	<!--***********************************-->
+	<div class="modal" id="addCollege">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Add College</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <form action='' method="POST">
+			{% csrf_token%}
+			<fieldset class="form-group">
+				{{e_form | crispy }}
+			</fieldset>
+			<div class='form-group'>
+				<input class='btn btn-primary' type="submit" value='Submit'>
+			</div>
+		</form>	
+      </div>
+    </div>
+  </div>
+</div>
+	
 {% endblock content %}

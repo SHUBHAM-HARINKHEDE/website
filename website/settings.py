@@ -33,6 +33,8 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'crispy_forms',
+    'employer.apps.EmployerConfig',
+    'multiselectfield',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -172,3 +174,7 @@ SOCIAL_AUTH_FACEBOOK_SECRET = '9bb2dd164fa447693b7a1cea39b34683'
 
 SOCIAL_AUTH_TWITTER_KEY = 'my-twitter-oauth-client-id'
 SOCIAL_AUTH_TWITTER_SECRET = 'my-twitter-oath-secret'
+
+
+#Custom user
+#AUTH_USER_MODEL='users.User'

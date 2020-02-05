@@ -25,6 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', user_views.index,name="index"),
     path('register/', user_views.register, name='register'),
+    path('home/',user_views.home,name='home'),
     path('profile/', user_views.profile, name='profile'),
     path('oauth/', include('social_django.urls', namespace='social')), 
     path('profile_settings/', user_views.profile_settings, name='profile_settings'),
@@ -61,7 +62,8 @@ urlpatterns = [
             template_name='users/password_change_done.html'
         ),
         name='password_change_done'),
-    path('delete-user',user_views.delete_user_profile,name='delete_user')
+    path('delete-user',user_views.delete_user_profile,name='delete_user'),
+    path('corporate/', include('employer.urls')),
     
     
 ]

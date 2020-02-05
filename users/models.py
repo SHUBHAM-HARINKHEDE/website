@@ -1,6 +1,8 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AbstractUser
 from PIL import Image
+
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
@@ -19,4 +21,18 @@ class Profile(models.Model):
             output_size = (300, 300)
             img.thumbnail(output_size)
             img.save(self.image.path)
+
+class Education(models.Model):
+    user=models.ForeignKey(User,on_delete=models.CASCADE)
+    college=models.CharField(max_length=300)
+    board=models.CharField(max_length=300)
+    qualification=models.CharField(max_length=100)
+    grade=models.CharField(max_length=10)
+
+    def __str__(self):
+        return f'{self.user.username}-{self.qualification}'
+    
+
+
+
 

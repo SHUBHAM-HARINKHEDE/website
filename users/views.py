@@ -1,22 +1,27 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
-from .forms import UserRegisterForm , UserUpdateForm, ProfileUpdateForm
+from .forms import (UserRegisterForm ,
+                    UserUpdateForm, 
+                    ProfileUpdateForm,
+                    EducationAddForm
+)
 from django.contrib.auth.decorators import login_required
 #to check password
 from django.contrib.auth.hashers import check_password
-#
-
+#social Auth
 from social_django.models import UserSocialAuth
 from django.contrib.auth.forms import AdminPasswordChangeForm, PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
-
+#
+from .models import Education 
 
 # Create your views here.
 def index(request):
     return render(request,'users/index.html')
 
-
+def home(request):
+    return render(request,'users/home.html')
 
 def register(request):
     if request.method == 'POST':
@@ -32,6 +37,14 @@ def register(request):
 
 @login_required
 def profile(request):
+    #not working.....
+    if request.method == 'GET':
+        e_form=EducationAddForm(request.GET,instance=request.user)
+        if e_form.is_valid():
+            e_form.save()
+            messages.success(request, f'College({e_form}) has been added!')
+            return redirect('profile')
+     #...........       
     if request.method == 'POST':
         u_form = UserUpdateForm(request.POST, instance=request.user)
         p_form = ProfileUpdateForm(request.POST,
@@ -46,11 +59,15 @@ def profile(request):
     else:
         u_form = UserUpdateForm(instance=request.user)
         p_form = ProfileUpdateForm(instance=request.user.profile)
+        e_form =EducationAddForm()
+        edu=Education.objects.filter(user=request.user)
 
     context = {
         'u_form' : u_form,
-        'p_form' : p_form
-    }
+        'p_form' : p_form,
+        'e_form' : e_form,
+        'edu'    : edu   
+       }
     return render(request, 'users/profile.html',context)
 
 @login_required
@@ -111,5 +128,3 @@ def delete_user_profile(request):
         else:
             messages.error(request,"Please enter correct password to procced!",)
     return render(request,'users/delete_profile.html')
-
-

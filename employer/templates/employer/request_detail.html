@@ -1,0 +1,47 @@
+{% extends 'employer/base.html' %}
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <legend>Request Detail</legend>
+        <hr>
+        <table>
+            <tr>
+                <td><label>skills</label></td>
+                <td><textarea disabled>{{object.skills}}</textarea></td>
+            </tr>
+            <tr>
+                <td><label>Experience</label></td>
+                <td><input type="text" value="{{object.experience}}" disabled></td>
+            </tr>
+            <tr>
+                <td><label>Notice Period</label></td>
+                <td><input type="text" value="{{object.notice_period}}" disabled></td>
+            </tr>
+            <tr>
+                <td><label>Location</label></td>
+                <td><input type="text" value="{{object.location}}" disabled></td>
+            </tr>
+            <tr>
+                <td><label>Max Salary</label></td>
+                <td><input type="text" value="{{object.max_salary}}" disabled></td>
+            </tr>
+            <tr>
+                <td>Negotiable</td>
+                <td>
+                    {% if object.negotiable %}
+                        <input type="checkbox" value="{{object.max_salary}}" checked disabled>
+                    {% else %}
+                        <input type="checkbox" value="{{object.max_salary}}"  disabled>
+                    {% endif %}
+                </td>
+            </tr>
+        </table>
+        <hr>
+        {% if object %}
+            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'request-update' object.id %}">Update</a>
+            <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'request-delete' object.id %}">Delete</a>
+        {% endif %}
+    </div>
+</div>
+<br>
+{% endblock content %}
