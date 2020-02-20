@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'employer.apps.EmployerConfig',
     'multiselectfield',
+    'django_select2',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -136,6 +137,8 @@ MEDIA_URL ='/media/'
 
 
 CRISPY_TEMPLATE_PAC = 'bootstrap4'
+SELECT2_JS = 'assets/js/select2.min.js'
+SELECT2_CSS = 'assets/css/select2.css'
 
 LOGIN_REDIRECT_URL = 'profile'
 LOGIN_URL = 'login'

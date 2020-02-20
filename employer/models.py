@@ -1,6 +1,5 @@
 from django.db import models
 from multiselectfield import MultiSelectField
-
 class Request(models.Model):
     SKILL_CHOICES=[
         ('Java','Java'),

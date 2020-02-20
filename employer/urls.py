@@ -20,6 +20,7 @@ urlpatterns = [
     path('request/<int:pk>/delete/', RequestDeleteView.as_view(), name='request-delete'),
     
     
+    
 ]
 #to access media files on browswer
 if settings.DEBUG:
