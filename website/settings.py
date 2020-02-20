@@ -31,22 +31,29 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    #apps
     'users.apps.UsersConfig',
-    'crispy_forms',
     'employer.apps.EmployerConfig',
-    'multiselectfield',
-    'django_select2',
+    #default
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    #cryspy forms
+    'crispy_forms',
     #social_auth
     'social_django',
+    #multisect
+    'multiselectfield',
+    'django_select2',
+    #chatbot
+    'chatterbot.ext.django_chatterbot',
 ]
 
 MIDDLEWARE = [
+    #default
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -67,6 +74,7 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                #default
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
@@ -181,3 +189,19 @@ SOCIAL_AUTH_TWITTER_SECRET = 'my-twitter-oath-secret'
 
 #Custom user
 #AUTH_USER_MODEL='users.User'
+
+#.......
+APPLICATION_NAME='APPNAME'
+
+#chatbot
+CHATTERBOT = {
+    'logic_adapters': [
+        'chatterbot.logic.MathematicalEvaluation',
+        'chatterbot.logic.TimeLogicAdapter',
+        'chatterbot.logic.BestMatch'
+    ],
+    'trainer': 'chatterbot.trainers.ChatterBotCorpusTrainer',
+    'training_data': [
+         'chatterbot.corpus.english'
+    ]
+}

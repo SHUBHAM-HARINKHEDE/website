@@ -16,11 +16,13 @@
 	 <link rel="stylesheet" type="text/css" href="{% static 'users/main.css' %}">
     
     <title>{% block title %}{% endblock title %}</title>
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+	
     
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-      <a class="navbar-brand" href="#">Django blog</a>
+      <a class="navbar-brand" href="#">Django blog{{APPLICATION_NAME}}</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -108,10 +110,98 @@
 			</div>
 		</div>
 	</div>	
-    
+	<!--Chat-->
+    <button class="open-button" onclick="openForm()"><i class="fa fa-comment-o fa-2x"></i></button>
+	<div class="chat-popup" id="myForm">
+	<form id='myForm' action='#' method='post' class="form-container">
+		{% csrf_token %}
+		<h4>Chat <span class="fa fa-close pull-right" onclick="closeForm()"></span></h4>
+		<!--messages-->
+		<div id="msg_box" class="scrollbar scrollbar-primary" style='overflow-y: scroll;height: 400px;'>
+			<div class="c_container">
+			<img src="/media/default.jpg" alt="Avatar" style="width:100%;">
+			<p>Hello, How can we help you?</p>
+			<span class="time-right"><script>document.write(new Date().getHours()+":"+new Date().getMinutes());</script></span>
+			</div>
+<!--
+			<div class="c_container darker">
+			<img src="/media/default.jpg" alt="Avatar" class="right" style="width:100%;">
+			<p>Hey! I'm fine. Thanks for asking!</p>
+			<span class="time-left">11:01</span>
+			</div>
+-->
+		</div>
+
+		<br>
+
+		<!--messages-->
+
+		<div class="input-group">
+			<input id="msg" name ="msg" type="text" class="form-control input-sm" placeholder="Type your message here...">
+			<div class="input-group-btn" id="button-addon4">
+				<button class="btn btn-warning btn-sm" type="submit"><span class="fa fa-send-o fa-2x"></send></button>
+			</div>
+		</div>
+	</form>
+	</div>
+
     <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script>
+		function openForm() {
+		document.getElementById("myForm").style.display = "block";
+		}
+
+		function closeForm() {
+		document.getElementById("myForm").style.display = "none";
+		}
+
+		
+		
+	</script>
+	<script>
+		$(document).on('submit', '#myForm',function(e){
+			e.preventDefault();
+			e.stopImmediatePropagation();
+			var now = new Date(Date.now());
+			var formatted = now.getHours() + ":" + now.getMinutes();
+			$("#msg_box").append(
+						'<div class="c_container darker">' +
+							'<img src="/media/default.jpg" alt="Avatar" class="right" style="width:100%;">' +
+							'<p>' +$('#msg').val() + '</p>' +
+							'<span class="time-left">'+formatted+'</span>'+
+						'</div>' 
+					)
+			
+			$.ajax({
+				type:'POST',
+				url:'{% url "chat" %}',
+				async: false,
+				cache: false,
+				data:{
+					msg:$('#msg').val(),
+					csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+					action: 'post'
+				},
+				success:function(json){
+					console.log(json['reply'])
+					document.getElementById("msg").value=""
+					$("#msg_box").append(
+						'<div class="c_container">' +
+							'<img src="/media/bot.png" alt="Avatar"  style="width:100%;">' +
+							'<p>' + json['reply']+ '</p>' +
+							'<span class="time-right">'+formatted+'</span>'+
+						'</div>' 
+					)
+				}
+				
+			});
+		});
+	</script>
+<!--
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+-->
+	
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   </body>

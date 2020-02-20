@@ -5,7 +5,11 @@ class Request(models.Model):
         ('Java','Java'),
         ('C++','C++'),
         ('C','C'),
-        ('Python','Python')
+        ('Python','Python'),
+        ('HTML','HTML'),
+        ('CSS','CSS'),
+        ('JS','Java Script'),
+        ('PHP','PHP')
     ]
     skills=MultiSelectField(choices=SKILL_CHOICES)
     experience=models.IntegerField()

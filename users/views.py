@@ -1,4 +1,5 @@
 from django.shortcuts import render,redirect
+from django.http import JsonResponse
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from .forms import (UserRegisterForm ,
@@ -15,6 +16,12 @@ from django.contrib.auth.forms import AdminPasswordChangeForm, PasswordChangeFor
 from django.contrib.auth import update_session_auth_hash
 #
 from .models import Education,Contact
+#chatbot
+from chatterbot import ChatBot
+from chatterbot.trainers import ChatterBotCorpusTrainer
+chatbot = ChatBot('shubham')
+trainer = ChatterBotCorpusTrainer(chatbot)
+trainer.train('chatterbot.corpus.english')
 
 # Create your views here.
 def index(request):
@@ -158,3 +165,17 @@ def delete_user_profile(request):
         else:
             messages.error(request,"Please enter correct password to procced!",)
     return render(request,'users/delete_profile.html')
+
+
+
+def chat(request):
+    
+    response_data = {}
+    if request.method =='POST':
+        msg=request.POST.get('msg')
+        print("user:"+msg)
+        response = chatbot.get_response(msg).text
+        print("bot:"+response)
+        response_data['reply']=response
+        return JsonResponse(response_data)
+    
