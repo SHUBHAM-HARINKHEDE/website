@@ -20,6 +20,8 @@ from users import views as user_views
 #to access media files on browswer
 from django.conf import settings
 from django.conf.urls.static import static
+#favicon
+from django.views.generic import RedirectView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -67,7 +69,8 @@ urlpatterns = [
     path('select2/', include('django_select2.urls')),#select2
     path('about/',user_views.about,name='about'),
     path('contact/',user_views.contact,name='contact'),
-    path('chat/',user_views.chat,name='chat')
+    path('chat/',user_views.chat,name='chat'),
+    path('favicon.ico',RedirectView.as_view(url='/media/favicon.ico')),#favicon
     
 ]
 #to access media files on browswer
