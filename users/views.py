@@ -1,4 +1,5 @@
 from django.shortcuts import render,redirect
+from django.http import JsonResponse
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from .forms import (UserRegisterForm ,
@@ -14,7 +15,13 @@ from social_django.models import UserSocialAuth
 from django.contrib.auth.forms import AdminPasswordChangeForm, PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 #
-from .models import Education 
+from .models import Education,Contact
+#chatbot
+from chatterbot import ChatBot
+from chatterbot.trainers import ChatterBotCorpusTrainer
+chatbot = ChatBot('shubham')
+trainer = ChatterBotCorpusTrainer(chatbot)
+trainer.train('chatterbot.corpus.english')
 
 # Create your views here.
 def index(request):
@@ -22,6 +29,36 @@ def index(request):
 
 def home(request):
     return render(request,'users/home.html')
+
+def about(request):
+    return render(request,'users/about.html')
+
+def contact(request):
+    
+    if request.method == 'POST':   
+        name=request.POST.get('name')
+        email=request.POST.get('email')
+        subject=request.POST.get('subject')
+        message=request.POST.get('message')
+        contact=Contact()
+        contact.name=name
+        contact.email=email
+        contact.subject=subject
+        contact.message=message
+        contact.save()     
+        try:
+            send_mail(
+            subject,
+            message,
+            email,
+            ['shubham.harin@gmail.com'],
+            fail_silently=False,
+            )
+            messages.success(request, f'We will come back to you soon..')
+        except:
+            print("Failed to send Mail")
+            messages.error(request, f'Something went wrong!')
+    return render(request,'users/contact.html')
 
 def register(request):
     if request.method == 'POST':
@@ -128,3 +165,17 @@ def delete_user_profile(request):
         else:
             messages.error(request,"Please enter correct password to procced!",)
     return render(request,'users/delete_profile.html')
+
+
+
+def chat(request):
+    
+    response_data = {}
+    if request.method =='POST':
+        msg=request.POST.get('msg')
+        print("user:"+msg)
+        response = chatbot.get_response(msg).text
+        print("bot:"+response)
+        response_data['reply']=response
+        return JsonResponse(response_data)
+    

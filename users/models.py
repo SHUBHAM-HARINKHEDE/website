@@ -31,6 +31,17 @@ class Education(models.Model):
 
     def __str__(self):
         return f'{self.user.username}-{self.qualification}'
+
+class Contact(models.Model):
+    name=models.CharField(max_length=300)
+    email=models.EmailField(max_length=500)
+    subject=models.CharField(max_length=500)
+    message=models.TextField()
+
+    def __str__(self):
+        return self.email
+    
+
     
 
 

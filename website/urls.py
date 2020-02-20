@@ -64,7 +64,10 @@ urlpatterns = [
         name='password_change_done'),
     path('delete-user',user_views.delete_user_profile,name='delete_user'),
     path('corporate/', include('employer.urls')),
-    
+    path('select2/', include('django_select2.urls')),#select2
+    path('about/',user_views.about,name='about'),
+    path('contact/',user_views.contact,name='contact'),
+    path('chat/',user_views.chat,name='chat')
     
 ]
 #to access media files on browswer

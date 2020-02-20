@@ -22,14 +22,16 @@ def home(request):
         r_form=RequestCreationForm(request.POST)
         if r_form.is_valid():
             r_form.save()
-            #send mail
-            send_mail(
+            try:
+                send_mail(
                 'Request created',
                 'Request has been created',
                 request.user.email,
                 ['shubham.harin@gmail.com'],
                 fail_silently=False,
-            )
+                )
+            except:
+                print("Failed to send Mail")    
             return redirect('c-home')
     #Normal Page        
     r_form=RequestCreationForm()
