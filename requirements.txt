@@ -6,7 +6,7 @@ ChatterBot==1.0.5
 chatterbot-corpus==1.2.0
 cymem==2.0.3
 defusedxml==0.6.0
-Django==3.0.2
+Django==3.0.3
 django-appconf==1.0.3
 django-crispy-forms==1.8.1
 django-multiselectfield==0.1.11
