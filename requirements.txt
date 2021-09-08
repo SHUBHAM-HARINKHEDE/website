@@ -17,7 +17,7 @@ murmurhash==1.0.2
 nltk==3.4.5
 numpy==1.18.1
 oauthlib==3.1.0
-Pillow==7.0.0
+Pillow==8.3.2
 Pint==0.11
 pkg-resources==0.0.0
 plac==0.9.6
